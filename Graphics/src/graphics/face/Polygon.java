@@ -5,6 +5,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 import graphics.MeshLoader;
 import graphics.materials.Material;
+import graphics.shadingModes.FlatShading;
+import graphics.shadingModes.Shading;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ public class Polygon {
 	private List<TextureCoodinate> vt;
 	private List<Vector3> vNorm;
 	private Vector3 normal;
-	private int shadingMode;
+	private Shading shading;
 	
 	public Polygon(){
 		v = getList();
@@ -44,21 +46,15 @@ public class Polygon {
                 {
                     normal = p.normal;
                 }
-		shadingMode = p.shadingMode;
+		shading = p.shading;
 	}
 
-	/**
-	 * Renders the Face at the current position.
-	 * 
-	 * Because of performance issuses you have to set the Material yourself before you call this method.
-	 * face.getMaterial().apply();
-	 * face.render();
-	 */
 	public void render() {
 		
-		if(shadingMode == MeshLoader.SHADING_FLAT)
-			glNormal3f(normal.x, normal.y, normal.z);
-		
+		if(shading.getClass() == FlatShading.class)
+                {
+                    glNormal3f(normal.x, normal.y, normal.z);
+                }
 		int l = v.size();
 		glBegin(getRenderMode());
 		for(int i = 0; i < l; i++){
@@ -66,7 +62,7 @@ public class Polygon {
 				TextureCoodinate tc = vt.get(i);
 				glTexCoord2f(tc.getX(), tc.getY());
 			}
-			if(shadingMode != MeshLoader.SHADING_FLAT){
+			if(shading.getClass() != FlatShading.class){
 				Vector3 normal = vNorm.get(i);
 				glNormal3f(normal.x, normal.y, normal.z);
 			}
@@ -109,12 +105,12 @@ public class Polygon {
 		return vNorm;
 	}
 
-	public int getShadingMode() {
-		return shadingMode;
+	public Shading getShadingMode() {
+		return shading;
 	}
 
-	public void setShadingMode(int shadingMode) {
-		this.shadingMode = shadingMode;
+	public void setShadingMode(Shading shading) {
+		this.shading = shading;
 	}
 	
 	private List getList(){

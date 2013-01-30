@@ -48,11 +48,11 @@ public class BasicFrameTest extends BasicFrame {
         //camera.setLight(true);
         getCamera().setPosition(new Vector3(-10, 0, 0));
         getCamera().setSight(new Vector3(1, 0, 0));
-        cube = new Model(meshLoader.getMesh("cube.obj", MeshLoader.SHADING_FLAT),
+        cube = new Model(meshLoader.getMesh("cube.obj"),
                 new Vector3(0, 0, 0));
-        ship = new Model(meshLoader.getMesh("Fighter.obj", MeshLoader.SHADING_PHONG),
+        ship = new Model(meshLoader.getMesh("Fighter.obj"),
                 new Vector3(10, 0, 0));
-        earth = new Model(meshLoader.getMesh("earth.obj", MeshLoader.SHADING_SHPERE),
+        earth = new Model(meshLoader.getMesh("earth.obj"),
                 new Vector3(-5, 0, 0));
         sun = new Model(meshLoader.getMesh("sun.obj"),
                 new Vector3(0, 10, 0));

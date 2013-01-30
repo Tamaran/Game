@@ -31,7 +31,6 @@ import util.ResourceLoader;
  */
 public class MeshLoader {
 
-    public static final int SHADING_FLAT = 1, SHADING_PHONG = 2, SHADING_SHPERE = 3;
     private static final int TYPE_VFACE = 1, TYPE_VTFACE = 2, TYPE_VTNFACE = 3, TYPE_VNFACE = 4;
     private static final float MIN = Float.MIN_VALUE, MAX = Float.MAX_VALUE;
     private final HashMap<String, Mesh> data = new HashMap<>();
@@ -41,7 +40,7 @@ public class MeshLoader {
     private List<Polygon> f = getList();
     private List<TextureCoodinate> vt = getList();
     private float left, right, top, bot, near, far;
-    private int shadingMode;
+    private Shading shading;
     private ResourceLoader resLoader;
     private MaterialLoader matLoader;
 
@@ -58,8 +57,8 @@ public class MeshLoader {
      * @param s
      * @return
      */
-    public Mesh getMesh(String f, int mode) {
-        shadingMode = mode;
+    public Mesh getMesh(String f, Shading shading) {
+        this.shading = shading;
         Mesh m = data.get(f);
         if (m == null) {
             m = readMesh(f);
@@ -69,7 +68,7 @@ public class MeshLoader {
     }
 
     public Mesh getMesh(String s) {
-        return getMesh(s, SHADING_PHONG);
+        return getMesh(s, new PhongShading());
     }
 
     private Mesh readMesh(String file) {
@@ -81,7 +80,6 @@ public class MeshLoader {
                     readLine(in.nextLine());
                 }
             }
-            //Mesh m = new Mesh(toArray(f), depCube.fit(left, right, bot, top, near, far));
             Mesh m = new Mesh(toArray(f), new Vector3(right - left, top - bot, near - far));
             centerVertices();
             long normTime = System.currentTimeMillis();
@@ -96,20 +94,6 @@ public class MeshLoader {
     }
 
     private void calcNormals() {
-        Shading shading = null;
-        switch (shadingMode) {
-            case SHADING_FLAT:
-                shading = new FlatShading();
-                break;
-            case SHADING_PHONG:
-                shading = new PhongShading();
-                break;
-            case SHADING_SHPERE:
-                shading = new SphereShading();
-                break;
-            default:
-                throw new RuntimeException("This shading mode is unknown");
-        }
         for (Polygon p : f) {
             shading.calcSurfaceNormal(p);
         }
@@ -202,7 +186,7 @@ public class MeshLoader {
                 break;
         }
         face.setMaterial(selMat);
-        face.setShadingMode(shadingMode);
+        face.setShadingMode(shading);
         f.add(face);
     }
 
