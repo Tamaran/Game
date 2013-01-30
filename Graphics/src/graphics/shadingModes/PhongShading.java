@@ -19,11 +19,13 @@ public class PhongShading implements Shading{
 		List<Vector3> normals = p.getVertexNormals();
 		List<Vertex> vert = p.getVertices();
 		for(Vertex v : vert){
-			Vector3 n = new Vector3();
+			Vector3 n = new Vector3(0,0,0);
 			List<Polygon> neig = v.getFaces();
 			for(Polygon a : neig)
-				n.add(a.getNormal());
-			n.norm();
+                        {
+                            n = n.add(a.getNormal());
+                        }	
+			n = n.norm();
 			normals.add(n);
 		}
 	}

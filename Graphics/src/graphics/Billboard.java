@@ -18,18 +18,22 @@ public class Billboard {
 
 	public void render(){
 
-		Vector3 d = new Vector3(to).sub(p);
+		Vector3 d = to.sub(p);
 		glColor4f(1f,1f,1f,0f);
 		t.apply();
 		glPushMatrix();
-			glTranslatef(p.getX(), p.getY(), p.getZ());
+			glTranslatef(p.x, p.y, p.z);
 			doRotation(d);
 			glBegin(GL_QUADS);
 			glNormal3f(1,0,0);
 			if(t != null)
-				renderWithTexture();
+                        {
+                            renderWithTexture();
+                        }
 			else
-				renderWithoutTexture();
+                        {
+                            renderWithoutTexture();
+                        }
 			glEnd();
 		glPopMatrix();
 	}
@@ -62,10 +66,12 @@ public class Billboard {
 	}
 	
 	private void doRotation(Vector3 d){
-		d.norm();
-		float[] r = d.asYZRotation();
-		glRotatef((float)Math.toDegrees(r[0]), 0, -1, 0);
-		glRotatef((float)Math.toDegrees(r[1]), 0, 0, 1);
+		d = d.norm();
+                Vector3 axis = d.getAxis();
+                glRotatef(d.getAngle(), axis.x, axis.y, axis.z);
+		//float[] r = d.asYZRotation();
+		//glRotatef((float)Math.toDegrees(r[0]), 0, -1, 0);
+		//glRotatef((float)Math.toDegrees(r[1]), 0, 0, 1);
 	}
 
 	public void setSize(float w, float h){

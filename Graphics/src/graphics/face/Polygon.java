@@ -41,7 +41,9 @@ public class Polygon {
 		vt = copy(p.vt);
 		vNorm = copy(p.vNorm);
 		if(p.normal != null)
-			normal = new Vector3(p.normal);
+                {
+                    normal = p.normal;
+                }
 		shadingMode = p.shadingMode;
 	}
 
@@ -55,7 +57,7 @@ public class Polygon {
 	public void render() {
 		
 		if(shadingMode == MeshLoader.SHADING_FLAT)
-			glNormal3f(normal.getX(), normal.getY(), normal.getZ());
+			glNormal3f(normal.x, normal.y, normal.z);
 		
 		int l = v.size();
 		glBegin(getRenderMode());
@@ -66,7 +68,7 @@ public class Polygon {
 			}
 			if(shadingMode != MeshLoader.SHADING_FLAT){
 				Vector3 normal = vNorm.get(i);
-				glNormal3f(normal.getX(), normal.getY(), normal.getZ());
+				glNormal3f(normal.x, normal.y, normal.z);
 			}
 			Vertex vertex = v.get(i);
 			glVertex3f(vertex.getX(), vertex.getY(), vertex.getZ());

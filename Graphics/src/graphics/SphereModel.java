@@ -1,7 +1,6 @@
 package graphics;
 
 import graphics.materials.Material;
-import mymath.depCube;
 
 import org.lwjgl.util.glu.Sphere;
 
@@ -16,7 +15,6 @@ public class SphereModel implements Renderable{
 	private Material m;
 	private Sphere s = new Sphere();
 	private int slices, stacks;
-	private depCube bounds;
 
 	/**
 	 * Contructs a Sphere with the specified Material and subdivisions. The radius is 1
@@ -30,7 +28,6 @@ public class SphereModel implements Renderable{
 		this.m = m;
 		this.slices = slices;
 		this.stacks = stacks;
-		bounds = depCube.fit(-1,1,-1,1,-1,1);
 	}
 
 	/**
@@ -39,11 +36,6 @@ public class SphereModel implements Renderable{
 	public void render() {
 		m.apply();
 		s.draw(1, slices, stacks);
-	}
-
-	@Override
-	public depCube getBounds() {
-		return bounds;
 	}
 
 }

@@ -1,21 +1,19 @@
-package test;
+package graphicstest;
 
 import java.io.IOException;
 
-import mymath.depCube;
 
-import backend.Explosion;
 
 
 import graphics.Animation;
-import graphics.BasicFrame;
+import graphics.gui.BasicFrame;
 import graphics.textures.Texture;
 import graphics.textures.TextureLoader;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class AnimationTest extends BasicFrame{
-	
+	/*
 	private Explosion a;
 
 	public void render(){
@@ -24,5 +22,5 @@ public class AnimationTest extends BasicFrame{
 		if(!a.render(getCamera().getPosition()))
 			a = null;
 	}
-
+*/
 }

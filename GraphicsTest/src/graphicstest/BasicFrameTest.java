@@ -1,4 +1,4 @@
-package test;
+package graphicstest;
 
 import mymath.Vector3;
 
@@ -7,10 +7,9 @@ import org.lwjgl.input.Mouse;
 
 
 import graphics.Background;
-import graphics.BasicFrame;
 import graphics.Light;
 import graphics.Model;
-import graphics.ModelLoader;
+import graphics.gui.BasicFrame;
 import graphics.textures.TextureLoader;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -73,13 +72,13 @@ public class BasicFrameTest extends BasicFrame{
 		//camera.setLight(true);
 		getCamera().setPosition(new Vector3(-10, 0, 0));
 		getCamera().setSight(new Vector3(1,0,0));
-		
+		/*
 		cube = ModelLoader.loader.getModel("cube.obj", ModelLoader.SHADING_FLAT);
 		ship = ModelLoader.loader.getModel("Fighter.obj", ModelLoader.SHADING_PHONG);
 		earth = ModelLoader.loader.getModel("earth.obj", ModelLoader.SHADING_SHPERE);
 		sun = ModelLoader.loader.getModel("sun.obj");
 		bg = new Background("texture__space_by_Mjag.jpg", 1000);
-
+                */
 	}
 
 }

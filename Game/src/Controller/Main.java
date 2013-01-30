@@ -21,11 +21,11 @@ import org.lwjgl.opengl.GL11;
 
 import collisions.PolygonCollision;
 
-import test.AnimationTest;
-import test.BasicFrameTest;
-import test.BillboardTest;
-import test.ExplosionTest;
-import test.FontTest;
+import graphicstest.AnimationTest;
+import graphicstest.BasicFrameTest;
+import graphicstest.BillboardTest;
+import graphicstest.ExplosionTest;
+import graphicstest.FontTest;
 
 public class Main {
 

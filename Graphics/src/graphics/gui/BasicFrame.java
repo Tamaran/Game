@@ -38,7 +38,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class BasicFrame {
 	
-	private Camera camera = new Camera();
+	private Camera camera;
 	private Texture overlay;
 	private int fps = 60;
 	private int w, h;
@@ -200,7 +200,7 @@ public class BasicFrame {
 		
 	}
 	
-	public void loop() throws LWJGLException{
+	public void loop(){
 
 		init();
 		long lastUpdate = System.currentTimeMillis(), timeElap;
@@ -213,8 +213,8 @@ public class BasicFrame {
 					continue;
 				}
 				//resize
-				if(Display.wasResized())
-					GLUtility.resize();
+				//if(Display.wasResized())
+					//GLUtility.resize();
 				//Process keyboard inputs
 				while(Keyboard.next())
 					keyStateChanged(Keyboard.getEventKey());

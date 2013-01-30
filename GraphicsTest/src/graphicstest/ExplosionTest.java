@@ -1,13 +1,11 @@
-package test;
+package graphicstest;
 
+import graphics.gui.BasicFrame;
 import org.lwjgl.opengl.GL11;
 
-import mymath.depCube;
-import backend.Explosion;
-import graphics.BasicFrame;
 
 public class ExplosionTest extends BasicFrame {
-	
+	/*
 	private Explosion e;
 	private float x = 0;
 
@@ -17,5 +15,5 @@ public class ExplosionTest extends BasicFrame {
 		if(!e.render(getCamera().getPosition()))
 			e = null;
 	}
-
+*/
 }

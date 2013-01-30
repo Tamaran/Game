@@ -1,12 +1,13 @@
-package test;
+package graphicstest;
 
 import mymath.Vector3;
 
 import org.lwjgl.opengl.GL11;
 
-import graphics.BasicFrame;
 import graphics.Billboard;
+import graphics.gui.BasicFrame;
 import graphics.textures.TextureLoader;
+import util.ResLoader;
 
 
 public class BillboardTest extends BasicFrame{
@@ -15,7 +16,7 @@ public class BillboardTest extends BasicFrame{
 	
 	public void render(){
 		
-		b.setTexture(TextureLoader.loader.getTexture("explosion0.png"));
+		b.setTexture(TextureLoader.loader.getTexture(ResLoader.getFile("explosion0.png")));
 		b.setTextureCoords(5f/16, 5f/16, 6f/16, 6f/16);
 		b.setFrom(new Vector3(0,0,0));
 		b.setTo(getCamera().getPosition());

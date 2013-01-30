@@ -46,11 +46,11 @@ public class GLUtility {
      *
      * @throws LWJGLException
      */
-    public static void initOpengl() throws LWJGLException {
-        System.loadLibrary("lwjgl");	//Pfad muss richtig gesetzt sein
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        Display.setDisplayMode(new DisplayMode(d.width, d.height));
+    public static boolean initOpengl() {
         try {
+            Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+            Display.setDisplayMode(new DisplayMode(d.width, d.height));
+
             //init opengl
             Display.create();
             Keyboard.create();
@@ -93,8 +93,10 @@ public class GLUtility {
             // select model view for subsequent transformations
             GL11.glMatrixMode(GL11.GL_MODELVIEW);
             GL11.glLoadIdentity();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -199,7 +201,7 @@ public class GLUtility {
      * @return
      */
     public static FloatBuffer toFloatBuffer(Vector3 v, float f) {
-        return asFloatBuffer(v.getX(), v.getY(), v.getZ(), f);
+        return asFloatBuffer(v.x, v.y, v.z, f);
     }
 
     /**

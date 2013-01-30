@@ -50,7 +50,7 @@ public class Background {
 		tex.apply();
 		glCullFace(GL_FRONT);
 		glPushMatrix();
-		glTranslatef(camPos.getX(), camPos.getY(), camPos.getZ());
+		glTranslatef(camPos.x, camPos.y, camPos.z);
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.66f, 0.66f);
 			glVertex3f(dist, -dist, -dist);

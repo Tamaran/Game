@@ -5,6 +5,7 @@
 package graphicstest;
 
 import graphics.GLUtility;
+import org.lwjgl.LWJGLException;
 
 /**
  *
@@ -15,9 +16,9 @@ public class GraphicsTest {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) throws LWJGLException
+    {
         GLUtility.initOpengl();
-        new Frame().loop();
+        new RotationCube().loop();
     }
 }

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Scanner;
 import mymath.Vector3;
 
-import mymath.depCube;
 
 import util.Logger;
 

@@ -3,8 +3,6 @@ package graphics;
 import graphics.face.Polygon;
 import graphics.materials.Material;
 
-
-import mymath.depCube;
 import mymath.Vector3;
 
 
@@ -39,7 +37,7 @@ public class Model implements Renderable {
             //bounds.renderBox();
         }
         glPushMatrix();
-        glTranslatef(pos.getX(), pos.getY(), pos.getZ());
+        glTranslatef(pos.x, pos.y, pos.z);
         //TODO rotation
         //glRotatef((float) Math.toDegrees(rh), 0, 1, 0);
         //glRotatef((float) Math.toDegrees(-rv), 0, 0, 1);
@@ -83,12 +81,9 @@ public class Model implements Renderable {
      *
      * @return
      */
-    public boolean getRenderBox() {
+    public boolean getRenderBox()
+    {
         return false;
     }
 
-    @Override
-    public depCube getBounds() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

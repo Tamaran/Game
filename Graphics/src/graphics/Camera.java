@@ -19,27 +19,27 @@ public class Camera {
 	/**
 	 * Position vector
 	 */
-	private Vector3 p = new Vector3();
+	private Vector3 p = new Vector3(0,0,0);
 	private Vector3 sight = new Vector3(0,0,-1);
 	private Light l = new Light();
 
 	public void moveLeft(){
-		Vector3 v = new Vector3(sight).rotateBodyY(Constants.THREEHALFPI).mult(speed);
+		Vector3 v = sight.rotateBodyY(Constants.THREEHALFPI).mult(speed);
 		p.add(v);
 	}
 	
 	public void moveRight(){
-		Vector3 v = new Vector3(sight).rotateBodyY(Constants.HALFPI).mult(speed);
+		Vector3 v = sight.rotateBodyY(Constants.HALFPI).mult(speed);
 		p.add(v);
 	}
 	
 	public void moveForward(){
-		Vector3 v = new Vector3(sight).mult(speed);
+		Vector3 v = sight.mult(speed);
 		p.add(v);
 	}
 	
 	public void moveBack(){
-		Vector3 v = new Vector3(sight).mult(speed).inverse();
+		Vector3 v = sight.mult(speed).inverse();
 		p.add(v);
 	}
 
@@ -48,10 +48,10 @@ public class Camera {
 	 */
 	public void setView(){
 		sight.norm();		//to prevent rounding errors from rotating
-		l.setPosition(p.getX(), p.getY(), p.getZ());
-		Vector3 t = new Vector3(sight).add(p);
-		GLU.gluLookAt(p.getX(), p.getY(), p.getZ(), 
-					  t.getX(), t.getY(), t.getZ(), 
+		l.setPosition(p.x, p.y, p.z);
+		Vector3 t = sight.add(p);
+		GLU.gluLookAt(p.x, p.y, p.z, 
+					  t.x, t.y, t.z, 
 					  0, 1, 0);
 	}
 	

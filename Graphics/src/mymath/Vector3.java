@@ -14,12 +14,8 @@ public class Vector3 {
 	private static final Vector3 DEFAULT = new Vector3(1,0,0);
 	private static final float HALFPI = (float) Math.PI/2, PI2 = (float) (2*Math.PI);
 	
-	private float x,y,z;
-
-	public Vector3() {
-		super();
-	}
-
+	public final float x,y,z;
+        
 	/**
 	 * Creates a position Vector from the given coodinates
 	 * 
@@ -33,106 +29,51 @@ public class Vector3 {
 		this.y = y;
 		this.z = z;
 	}
-	
-	public Vector3(Vector3 o){
-		this(o.x, o.y, o.z);
-	}
-	
-	public Vector3 move(float dx, float dy, float dz){
-		x += dx;
-		y += dy;
-		z += dz;
-		return this;
-	}
-	
-	public void addX(float f){
-		x += f;
-	}
-	
-	public void addY(float f){
-		y += f;
-	}
-	
-	public void addZ(float f){
-		z += f;
-	}
-	
-	public void set(Vector3 o){
-		x = o.x;
-		y = o.y;
-		z = o.z;
+
+	public Vector3 add(float dx, float dy, float dz){
+		return new Vector3(x+dx, y+dy, z+dz);
 	}
 
 	public Vector3 rotateX(float r){
 		double sinr = Math.sin(r);
 		double cosr = Math.cos(r);
-		float ty = y;
-		float tz = z;
-		y = (float) (cosr*ty-sinr*tz);
-		z = (float) (sinr*ty+cosr*tz);
-		return this;
+		return new Vector3(x, (float) (cosr*y-sinr*z), (float) (sinr*y+cosr*z));
 	}
 	
 	public Vector3 rotateY(float r){
 		double sinr = Math.sin(r);
 		double cosr = Math.cos(r);
-		float tx = x;
-		float tz = z;
-		x = (float) (cosr*tx+sinr*tz);
-		z = (float) (cosr*tz-sinr*tx);
-		return this;
+		return new Vector3((float) (cosr*x+sinr*z), y, (float) (cosr*z-sinr*x));
 	}
 	
 	public Vector3 rotateZ(float r){
 		double sinr = Math.sin(r);
 		double cosr = Math.cos(r);
-		float tx = x;
-		float ty = y;
-		x = (float) (cosr*tx-sinr*ty);
-		y = (float) (sinr*tx+cosr*ty);
-		return this;
+		return new Vector3((float) (cosr*x-sinr*y), (float) (sinr*x+cosr*y), z);
 	}
 	
 	public Vector3 rotateX90(){
-		float tmp = y;
-		y = -z;
-		z = tmp;
-		return this;
+		return new Vector3(x, -z, y);
 	}
 	
 	public Vector3 rotateX270(){
-		float tmp = y;
-		y = z;
-		z = -tmp;
-		return this;
+		return new Vector3(x, z, -y);
 	}
 	
 	public Vector3 rotateY90(){
-		float tmp = x;
-		x = z;
-		z = -tmp;
-		return this;
+		return new Vector3(z, y, -x);
 	}
 	
 	public Vector3 rotateY270(){
-		float tmp = x;
-		x = -z;
-		z = tmp;
-		return this;
+		return new Vector3(-z, y, x);
 	}
 	
 	public Vector3 rotateZ90(){
-		float tmp = x;
-		x = -y;
-		y = tmp;
-		return this;
+		return new Vector3(-y, x, z);
 	}
 	
 	public Vector3 rotateZ270(){
-		float tmp = x;
-		x = y;
-		y = -tmp;
-		return this;
+		return new Vector3(y, -x, z);
 	}
 	
 	/**
@@ -140,9 +81,8 @@ public class Vector3 {
 	 * 
 	 * @param r
 	 */
-	public Vector3 rotateBodyZ(float r){//TODO testen
-		rotate(r, getBodyAxisZ());
-		return this;
+	public Vector3 rotateBodyZ(float r){
+		return rotate(r, getBodyAxisZ());
 	}
 	
 	/**
@@ -151,8 +91,7 @@ public class Vector3 {
 	 * @param r
 	 */
 	public Vector3 rotateBodyY(float r){
-		rotate(r, getBodyAxisY());
-		return this;
+		return rotate(r, getBodyAxisY());
 	}
 	
 	/**
@@ -161,38 +100,28 @@ public class Vector3 {
 	 * @param rv
 	 * @param axis
 	 */
-	public void rotate(float t, Vector3 u) {
+	public Vector3 rotate(float t, Vector3 u) {
 
 		float cost = (float) Math.cos(t);
 		float sint = (float) Math.sin(t);
-		
-		float tx = x * (cost+u.x*u.x*(1-cost))+
-				   y * (u.x*u.y*(1-cost)-u.z*sint)+
-				   z * (u.x*u.z*(1-cost)+u.y*sint);
-		float ty = x * (u.x*u.y*(1-cost)+u.z*sint)+
-				   y * (cost+u.y*u.y*(1-cost))+
-				   z * (u.y*u.z*(1-cost)-u.x*sint);
-		float tz = x * (u.x*u.z*(1-cost)-u.y*sint)+
-				   y * (u.y*u.z*(1-cost)+u.x*sint)+
-				   z * (cost+u.z*u.z*(1-cost));
- 		
-		x = tx;
-		y = ty;
-		z = tz;
+                return new Vector3(
+                        x * (cost+u.x*u.x*(1-cost))+
+			y * (u.x*u.y*(1-cost)-u.z*sint)+
+			z * (u.x*u.z*(1-cost)+u.y*sint),
+                        x * (u.x*u.y*(1-cost)+u.z*sint)+
+			y * (cost+u.y*u.y*(1-cost))+
+			z * (u.y*u.z*(1-cost)-u.x*sint),
+                        x * (u.x*u.z*(1-cost)-u.y*sint)+
+			y * (u.y*u.z*(1-cost)+u.x*sint)+
+			z * (cost+u.z*u.z*(1-cost)));
 	}
 	
 	public Vector3 add(Vector3 o){
-		x += o.x;
-		y += o.y;
-		z += o.z;
-		return this;
+		return new Vector3(x + o.x, y + o.y, z + o.z);
 	}
 	
 	public Vector3 sub(Vector3 o){
-		x -= o.x;
-		y -= o.y;
-		z -= o.z;
-		return this;
+		return new Vector3(x - o.x, y - o.y, z - o.z);
 	}
 	
 	/**
@@ -202,10 +131,7 @@ public class Vector3 {
 	 * @return itself
 	 */
 	public Vector3 mult(float s){
-		x *= s;
-		y *= s;
-		z *= s;
-		return this;
+		return new Vector3(x*s, y*s, z*s);
 	}
 	
 	/**
@@ -215,38 +141,11 @@ public class Vector3 {
 	 */
 	public Vector3 norm(){
 		float l = length();
-		x /= l;
-		y /= l;
-		z /= l;
-		return this;
+		return new Vector3(x/l,y/l,z/l);
 	}
 	
 	public float length(){
 		return (float) Math.sqrt(x*x+y*y+z*z);
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public float getZ() {
-		return z;
-	}
-
-	public void setZ(float z) {
-		this.z = z;
 	}
 
 	/**
@@ -256,10 +155,7 @@ public class Vector3 {
 	 * @return itself
 	 */
 	public Vector3 inverse() {
-		x = -x;
-		y = -y;
-		z = -z;
-		return this;
+		return new Vector3(-x,-y,-z);
 	}
 
 	@Override
@@ -268,13 +164,10 @@ public class Vector3 {
 	}
 
 	public Vector3 cross(Vector3 b) {
-		float tx = y * b.z - z * b.y;
-		float ty = z * b.x - x * b.z;
-		float tz = x * b.y - y * b.x;
-		x = tx;
-		y = ty;
-		z = tz;
-		return this;
+		return new Vector3(
+                        y * b.z - z * b.y,
+                        z * b.x - x * b.z,
+                        x * b.y - y * b.x);
 	}
 	
 	public float dot(Vector3 b){
@@ -288,9 +181,7 @@ public class Vector3 {
 	 * @return
 	 */
 	public Vector3 getAxis(){
-		Vector3 a = new Vector3(this);
-		a.cross(DEFAULT);
-		return a;
+		return cross(DEFAULT);
 	}
 
 	/**
@@ -300,48 +191,24 @@ public class Vector3 {
 	 * @return
 	 */
 	public float getAngle() {
-		Vector3 a = new Vector3(this);
-		a.norm();
-		return (float) Math.acos(a.x);
+		return (float) Math.acos(norm().x);
 		
-	}
-	
-	/**
-	 * Computes the rotation around the y and the z axis to transform a (1,0,0) vector into this vector.
-	 * 
-	 * @return [ry,rz]
-	 */
-	public float[] asYZRotation(){//TODO macht fehler
-		float[] res = new float[2];
-		Vector3 xzproj = new Vector3(x, 0, z);
-		xzproj.norm();
-		res[0] = (float) Math.acos(xzproj.x);
-		Vector3 a = new Vector3(this);
-		a.norm();
-		res[1] = (float) Math.asin(a.y);
-		if(Float.isNaN(res[0]))
-			res[0] = 0f;
-		if(Float.isNaN(res[1]))
-			res[1] = 0f;
-		if(z < 0)
-			res[0] = Constants.TWOPI - res[0];
-		return res;
 	}
 	
 	/**
 	 * @return the vector itself.
 	 */
-	public Vector3 getBodyAxisX(){
+	public Vector3 getBodyAxisX()
+        {
 		return this;
 	}
 	
 	/**
 	 * @return the Bodys Y Axis.
 	 */
-	public Vector3 getBodyAxisY(){
-		Vector3 z = getBodyAxisZ();
-		z.cross(this);
-		return z;
+	public Vector3 getBodyAxisY()
+        {
+		return getBodyAxisZ().cross(this);
 	}
 	
 	/**
@@ -349,27 +216,9 @@ public class Vector3 {
 	 * 
 	 * @return
 	 */
-	public Vector3 getBodyAxisZ(){
-		
-		Vector3 y = new Vector3(0,1,0);
-		y.cross(this);
-		return y;
-	}
-	
-	/**
-	 * Construcs a direction vector from an object that started with the (1,0,0) vector and then got rotated by the 
-	 * given body coordinates.
-	 * 
-	 * @param rv
-	 * @param rh
-	 * @return
-	 */
-	public static Vector3 fromRotations(float rv, float rh){
-		Vector3 v = new Vector3(1,0,0);
-		v.rotateY(rh);
-		Vector3 axis = new Vector3(v).rotateY90();
-		v.rotate(rv, axis);
-		return v;
+	public Vector3 getBodyAxisZ()
+        {
+		return new Vector3(0,1,0).cross(this);
 	}
 	
 	/**
@@ -386,19 +235,10 @@ public class Vector3 {
 	}
 	
 	public static Vector3 random(){
-		Random rnd = new Random();
-		Vector3 v = new Vector3();
-		v.x = (float) (Math.random()*2-1);
-		v.y = (float) (Math.random()*2-1);
-		v.z = (float) (Math.random()*2-1);
-		v.norm();
-		return v;
-	}
-	
-	private void saveNorm(){
-		float d = 1f/(length()*1.01f);
-		x /= d;
-		y /= d;
-		z /= d;
+		Vector3 v = new Vector3(
+                        (float) (Math.random()*2-1), 
+                        (float) (Math.random()*2-1), 
+                        (float) (Math.random()*2-1));
+		return v.norm();
 	}
 }
