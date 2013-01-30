@@ -24,7 +24,7 @@ public class Texture {
 	 * @param s the filename
 	 * @throws IOException
 	 */
-	public Texture(File f) throws IOException {
+	public Texture(BufferedImage img){
 		id = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, id);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -34,7 +34,6 @@ public class Texture {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		
-		BufferedImage img = GLUtility.loadImage(f, BufferedImage.TYPE_INT_RGB);
 		w = img.getWidth();
 		h = img.getHeight();
 		ByteBuffer buf = GLUtility.toByteBuffer(img);

@@ -223,14 +223,18 @@ public class GLUtility {
      * @return
      * @throws IOException
      */
-    public static BufferedImage loadImage(File f, int format) throws IOException {
-        BufferedImage img = ImageIO.read(f);
-        if (img.getType() == format) {
-            return img;
+    public static BufferedImage loadImage(File f, int format) {
+        try {
+            BufferedImage img = ImageIO.read(f);
+            if (img.getType() == format) {
+                return img;
+            }
+            BufferedImage n = new BufferedImage(img.getWidth(), img.getHeight(), format);
+            n.getGraphics().drawImage(img, 0, 0, null);
+            return n;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        BufferedImage n = new BufferedImage(img.getWidth(), img.getHeight(), format);
-        n.getGraphics().drawImage(img, 0, 0, null);
-        return n;
     }
 
     /**

@@ -19,6 +19,6 @@ public class GraphicsTest {
     public static void main(String[] args) throws LWJGLException
     {
         GLUtility.initOpengl();
-        new RotationCube().loop();
+        new BasicFrameTest().loop();
     }
 }

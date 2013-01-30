@@ -11,15 +11,13 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Model implements Renderable {
 
-    private Polygon[] faces;
-    private Vector3 pos, size, moveDir;
-    private float scale;
+    private Mesh mesh;
+    private Vector3 pos, moveDir;
     private float speed;
 
-    public Model(Polygon[] faces, Vector3 pos, float scale) {
+    public Model(Mesh mesh, Vector3 pos) {
         super();
-        this.faces = faces;
-        this.scale = scale;
+        this.mesh = mesh;
         this.pos = pos;
     }
     
@@ -41,15 +39,7 @@ public class Model implements Renderable {
         //TODO rotation
         //glRotatef((float) Math.toDegrees(rh), 0, 1, 0);
         //glRotatef((float) Math.toDegrees(-rv), 0, 0, 1);
-        glScalef(scale, scale, scale);
-        Material m = null;
-        for (Polygon a : faces) {
-            if (m != a.getMaterial()) {
-                m = a.getMaterial();
-                m.apply();
-            }
-            a.render();
-        }
+        mesh.render();
         glPopMatrix();
 
     }
@@ -60,16 +50,8 @@ public class Model implements Renderable {
         return pos;
     }
 
-    public Vector3 getSize() {
-        return size;
-    }
-
     public Vector3 getMoveDir() {
         return moveDir;
-    }
-
-    public float getScale() {
-        return scale;
     }
 
     public float getSpeed() {

@@ -5,6 +5,7 @@
 package graphics;
 
 import graphics.face.Polygon;
+import graphics.materials.Material;
 import mymath.Vector3;
 
 /**
@@ -29,6 +30,16 @@ public class Mesh {
         return size;
     }
     
-    
+    public void render()
+    {
+        Material m = null;
+        for (Polygon a : polygons) {
+            if (m != a.getMaterial()) {
+                m = a.getMaterial();
+                m.apply();
+            }
+            a.render();
+        }
+    }
     
 }

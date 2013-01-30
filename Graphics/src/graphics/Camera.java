@@ -24,23 +24,19 @@ public class Camera {
 	private Light l = new Light();
 
 	public void moveLeft(){
-		Vector3 v = sight.rotateBodyY(Constants.THREEHALFPI).mult(speed);
-		p.add(v);
+		p = p.add(sight.rotateBodyY(Constants.THREEHALFPI).mult(speed));
 	}
 	
 	public void moveRight(){
-		Vector3 v = sight.rotateBodyY(Constants.HALFPI).mult(speed);
-		p.add(v);
+		p = p.add(sight.rotateBodyY(Constants.HALFPI).mult(speed));
 	}
 	
 	public void moveForward(){
-		Vector3 v = sight.mult(speed);
-		p.add(v);
+		p = p.add(sight.mult(speed));
 	}
 	
 	public void moveBack(){
-		Vector3 v = sight.mult(speed).inverse();
-		p.add(v);
+		p = p.add(sight.mult(speed).inverse());
 	}
 
 	/**
@@ -60,19 +56,19 @@ public class Camera {
 	}
 
 	public void rotateRight() {
-		sight.rotateBodyY(rotSpeed);
+		sight = sight.rotateBodyY(rotSpeed);
 	}
 
 	public void rotateLeft() {
-		sight.rotateBodyY(-rotSpeed);
+		sight = sight.rotateBodyY(-rotSpeed);
 	}
 
 	public void rotateDown() {
-		sight.rotateBodyZ(rotSpeed);
+		sight = sight.rotateBodyZ(rotSpeed);
 	}
 
 	public void rotateUp() {
-		sight.rotateBodyZ(-rotSpeed);
+		sight = sight.rotateBodyZ(-rotSpeed);
 	}
 
 	public Vector3 getPosition() {

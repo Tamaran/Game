@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
+import util.ResourceLoader;
 
 /**
  * A Loader class that reads .mtl files and holds the Material Objects.
@@ -17,10 +18,17 @@ import java.util.Scanner;
  */
 public class MaterialLoader {
 
-    public static final MaterialLoader loader = new MaterialLoader();
     private static final float SWOBJTOGL = 128f / 1000f;		//Factor for conversion of shininess from .obj format to opengl format 
     private HashMap<File, Material> data = new HashMap();
     private Material m;
+    
+    private ResourceLoader resLoader;
+    private TextureLoader texLoader;
+
+    public MaterialLoader(ResourceLoader resLoader) {
+        this.resLoader = resLoader;
+        texLoader = new TextureLoader(resLoader);
+    }
 
     /**
      * Returns the Material with the given name and null if it didnt got
@@ -29,7 +37,7 @@ public class MaterialLoader {
      * @param name
      * @return
      */
-    public Material getMaterial(File name) {
+    public Material getMaterial(String name) {
         return data.get(name);
     }
 
@@ -39,12 +47,16 @@ public class MaterialLoader {
      * @param s
      * @throws FileNotFoundException
      */
-    public void importLib(File f) throws FileNotFoundException {
-        m = null;
-        try (Scanner in = new Scanner(f)) {
-            while (in.hasNextLine()) {
-                parseLine(in.nextLine().toLowerCase());
+    public void importLib(String f) {
+        try {
+            m = null;
+            try (Scanner in = new Scanner(resLoader.getFile(f))) {
+                while (in.hasNextLine()) {
+                    parseLine(in.nextLine().toLowerCase());
+                }
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -88,7 +100,7 @@ public class MaterialLoader {
     }
 
     private Texture readMap(String s) {
-        return TextureLoader.loader.getTexture(new File(splitAtFirstSpace(s)));
+        return texLoader.getTexture(splitAtFirstSpace(s));
     }
 
     private void parseTransparency(String line) {
