@@ -47,7 +47,7 @@ public class Camera {
 	 * Sets the cameraview
 	 */
 	public void setView(){
-		sight.norm();		//to prevent rounding errors from rotating
+		sight = sight.norm();		//to prevent rounding errors from rotating
 		l.setPosition(p.x, p.y, p.z);
 		Vector3 t = sight.add(p);
 		GLU.gluLookAt(p.x, p.y, p.z, 

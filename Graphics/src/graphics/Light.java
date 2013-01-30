@@ -51,7 +51,7 @@ public class Light {
 	
 	public void setPosition(float x, float y, float z){
 		p.put(0, x);
-		p.put(1,y);
+		p.put(1, y);
 		p.put(2, z);
 		glLight(handle, GL_POSITION, p);
 	}

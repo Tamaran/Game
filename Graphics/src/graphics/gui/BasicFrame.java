@@ -69,6 +69,7 @@ public class BasicFrame {
 		this.h = h;
 		this.camera = camera;
 		Mouse.setGrabbed(true);
+                camera.getLight().enable();
 	}
 	
 	/**
@@ -213,8 +214,8 @@ public class BasicFrame {
 					continue;
 				}
 				//resize
-				//if(Display.wasResized())
-					//GLUtility.resize();
+				if(Display.wasResized())
+					GLUtility.resize();
 				//Process keyboard inputs
 				while(Keyboard.next())
 					keyStateChanged(Keyboard.getEventKey());
@@ -291,7 +292,7 @@ public class BasicFrame {
 	}
 	
 	private void keyStateChanged(int c){
-		Integer i = c;	//explicit cast
+		Integer i = c;	
 		if(Keyboard.getEventKeyState()){
 			keydown(c);
 			hold.add(i);
