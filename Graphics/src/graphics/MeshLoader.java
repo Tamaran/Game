@@ -1,28 +1,13 @@
 package graphics;
 
-import graphics.face.Polygon;
-import graphics.face.TextureCoodinate;
-import graphics.face.Vertex;
-import graphics.materials.Material;
 import graphics.materials.MaterialLoader;
 import graphics.shadingModes.FlatShading;
 import graphics.shadingModes.PhongShading;
-import graphics.shadingModes.Shading;
-import graphics.shadingModes.SphereShading;
-
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
-import mymath.Vector3;
 import util.LazyLoader;
 
 
-import util.Logger;
 import util.ResourceLoader;
 
 /**

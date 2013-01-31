@@ -57,7 +57,6 @@ public class MeshLoadHelper {
     }
 
     public Mesh getMesh() throws MeshParseException, FileNotFoundException{
-            long t = System.currentTimeMillis();
         selMat = Material.WHITE;
         try (Scanner in = new Scanner(resLoader.getFile(file))) {
             while (in.hasNextLine()) {
@@ -69,7 +68,6 @@ public class MeshLoadHelper {
         long normTime = System.currentTimeMillis();
         calcNormals();
         Logger.D("Calculating Normals for " + file + " finished after " + (System.currentTimeMillis() - normTime) + "ms");
-        Logger.D("Loading " + file + " finished after " + (System.currentTimeMillis() - t) + "ms");
         return m;
     }
 

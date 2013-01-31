@@ -7,13 +7,12 @@ import mymath.Vector3;
 
 public abstract class Shading {
 
-	abstract public void calcSurfaceNormal(Polygon p);
 	abstract public void calcVertexNormals(Polygon p);
 	
      /**
      * Caluclates the surface normal
      */
-    public void calcFlatSurfaceNormal(Polygon p) {
+    public void calcSurfaceNormal(Polygon p) {
         List<Vertex> v = p.getVertices();
         Vertex o = v.get(0);
         Vertex v1 = v.get(1);

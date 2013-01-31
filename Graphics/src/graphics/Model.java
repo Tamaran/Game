@@ -1,13 +1,7 @@
 package graphics;
 
-import graphics.face.Polygon;
-import graphics.materials.Material;
-
 import mymath.Vector3;
-
-
 import static org.lwjgl.opengl.GL11.*;
-
 
 public class Model implements Renderable {
 
@@ -20,10 +14,9 @@ public class Model implements Renderable {
         this.mesh = mesh;
         this.pos = pos;
     }
-    
-    public void update(long time)
-    {
-        pos = pos.add(moveDir.mult(speed*time));
+
+    public void update(long time) {
+        pos = pos.add(moveDir.mult(speed * time));
     }
 
     @Override
@@ -43,8 +36,6 @@ public class Model implements Renderable {
         glPopMatrix();
 
     }
-    
-    
 
     public Vector3 getPosition() {
         return pos;
@@ -57,15 +48,13 @@ public class Model implements Renderable {
     public float getSpeed() {
         return speed;
     }
-    
+
     /**
      * If the edges of the boundary shall be rendered.
      *
      * @return
      */
-    public boolean getRenderBox()
-    {
+    public boolean getRenderBox() {
         return false;
     }
-
 }

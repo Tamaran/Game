@@ -8,11 +8,6 @@ import mymath.Vector3;
 public class PhongShading extends Shading{
 
 	@Override
-	public void calcSurfaceNormal(Polygon p) {
-		calcFlatSurfaceNormal(p);
-	}
-
-	@Override
 	public void calcVertexNormals(Polygon p) {
 		List<Vector3> normals = p.getVertexNormals();
 		List<Vertex> vert = p.getVertices();

@@ -9,7 +9,7 @@ public class Vertex {
 
 	private float x,y,z,w;
 	private List<Polygon> faces = new ArrayList();
-	private Vector3 n;
+	private Vector3 surfaceNormal;
 
 	public Vertex(float x, float y, float z, float w) {
 		super();
@@ -65,16 +65,16 @@ public class Vertex {
 		this.z += z;
 	}
 
-	public Vector3 getNormal() {
-		return n;
+	public Vector3 getSurfaceNormal() {
+		return surfaceNormal;
 	}
 
 	public List<Polygon> getFaces() {
 		return faces;
 	}
 
-	public void setNormal(Vector3 n) {
-		this.n = n;
+	public void setSurfaceNormal(Vector3 surfaceNormal) {
+		this.surfaceNormal = surfaceNormal;
 	}	
 
 }
