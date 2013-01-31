@@ -29,41 +29,30 @@ public class BasicFrameTest extends BasicFrame {
     }
 
     public void render() {
-        //bg.render(getCamera().getPosition());
+        bg.render(getCamera().getPosition());
         cube.render();
         ship.render();
         earth.render();
-        //sun.render();
+        sun.render();
     }
 
-    public void renderInterface() {
-
-    }
-
+    @Override
     public void init() {
         ResourceLoader resLoader = new ResourceLoader("../res/");
         TextureLoader texLoader = new TextureLoader(resLoader);
         MeshLoader meshLoader = new MeshLoader(resLoader);
-        //Light.setModelAmbient(1,1,1);
-        //camera.setLight(true);
+        Light.setModelAmbient(1,1,1);
         getCamera().setPosition(new Vector3(-10, 0, 0));
         getCamera().setSight(new Vector3(1, 0, 0));
-        cube = new Model(meshLoader.getMesh("cube.obj"),
+        cube = new Model(meshLoader.get("cube.obj"),
                 new Vector3(0, 0, 0));
-        ship = new Model(meshLoader.getMesh("Fighter.obj"),
+        ship = new Model(meshLoader.get("Fighter.obj"),
                 new Vector3(10, 0, 0));
-        earth = new Model(meshLoader.getMesh("earth.obj"),
+        earth = new Model(meshLoader.get("earth.obj"),
                 new Vector3(-5, 0, 0));
-        //sun = new Model(meshLoader.getMesh("sun.obj"),
-        //        new Vector3(0, 10, 0));
+        sun = new Model(meshLoader.get("sun.obj"),
+                new Vector3(0, 10, 0));
         
-        //bg = new Background(texLoader.getTexture("Star_Texture_Pack_by_Zephroth.jpg"), 1000);
-        /*
-         cube = ModelLoader.loader.getModel("cube.obj", ModelLoader.SHADING_FLAT);
-         ship = ModelLoader.loader.getModel("Fighter.obj", ModelLoader.SHADING_PHONG);
-         earth = ModelLoader.loader.getModel("earth.obj", ModelLoader.SHADING_SHPERE);
-         sun = ModelLoader.loader.getModel("sun.obj");
-         bg = new Background("texture__space_by_Mjag.jpg", 1000);
-         */
+        bg = new Background(texLoader.get("Star_Texture_Pack_by_Zephroth.jpg"), 1000);
     }
 }

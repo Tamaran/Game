@@ -17,10 +17,11 @@ public class FontTest extends BasicFrame {
         ResourceLoader resLoader = new ResourceLoader("../res/");
         TextureLoader texLoader = new TextureLoader(resLoader);
 
-        f = new Font(texLoader.getTexture("font1.png"), 199, 199, 0.3f, 0.3f);
-        f.setText(" Dies ist ein Testsatz\nund noch ein Testsatz");
+        f = new Font(texLoader.get("font1.png"), 199, 199, 0.3f, 0.3f);
+        f.setText("blablablubbbla\nasdfasdfsgb");
     }
 
+    @Override
     public void render() {
         glTranslatef(-1.5f, 0.0f, -6.0f);
         f.render();

@@ -98,7 +98,7 @@ public class MaterialLoader{
     }
 
     private Texture readMap(String s) {
-        return texLoader.getTexture(splitAtFirstSpace(s));
+        return texLoader.get(splitAtFirstSpace(s));
     }
 
     private void parseTransparency(String line) {

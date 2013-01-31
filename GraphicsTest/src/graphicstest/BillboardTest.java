@@ -15,7 +15,7 @@ public class BillboardTest extends BasicFrame {
     public void render() {
         util.ResourceLoader resLoader = new util.ResourceLoader("../res/");
         TextureLoader texLoader = new TextureLoader(resLoader);
-        b.setTexture(texLoader.getTexture("explosion0.png"));
+        b.setTexture(texLoader.get("explosion0.png"));
         b.setTextureCoords(5f / 16, 5f / 16, 6f / 16, 6f / 16);
         b.setFrom(new Vector3(0, 0, 0));
         b.setTo(getCamera().getPosition());

@@ -7,11 +7,11 @@ import java.util.List;
 
 import mymath.Vector3;
 
-public class SphereShading implements Shading{
+public class SphereShading extends Shading{
 
 	@Override
 	public void calcSurfaceNormal(Polygon p) {
-		new FlatShading().calcSurfaceNormal(p);
+		calcFlatSurfaceNormal(p);
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class SphereShading implements Shading{
 		List<Vector3> normals = p.getVertexNormals();
 		for(Vertex v : vertice){
 			if(v.getNormal() == null){
-				Vector3 n = new Vector3(v.getX(), v.getY(), v.getZ());
+				Vector3 n = new Vector3(v);
 				v.setNormal(n);
 			}
 			Vector3 norm = v.getNormal();

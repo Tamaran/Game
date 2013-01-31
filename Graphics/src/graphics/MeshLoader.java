@@ -17,7 +17,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 import mymath.Vector3;
+import util.LazyLoader;
 
 
 import util.Logger;
@@ -29,10 +31,7 @@ import util.ResourceLoader;
  * @author Tamaran
  *
  */
-public class MeshLoader {
-
-    
-    private final HashMap<String, Mesh> data = new HashMap<>();
+public class MeshLoader extends LazyLoader<String, Mesh>{
 
     private ResourceLoader resLoader;
     private MaterialLoader matLoader;
@@ -42,24 +41,14 @@ public class MeshLoader {
         matLoader = new MaterialLoader(resLoader);
     }
 
-    /**
-     * Returns the model if its loaded already, otherwise its parsed from the
-     * .obj file.
-     *
-     * @param s
-     * @return
-     */
-    public Mesh getMesh(String f, Shading shading) {
-        Mesh m = data.get(f);
-        if (m == null) {
-            m = new MeshLoadHelper(f, shading, resLoader, matLoader).getMesh();
-            data.put(f, m);
+    @Override
+    protected Mesh read(String name) {
+        try {
+            return new MeshLoadHelper(name, new PhongShading(), resLoader, matLoader).getMesh();
+        } catch (MeshParseException | FileNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MeshLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return m;
-    }
-
-    public Mesh getMesh(String s) {
-        return getMesh(s, new PhongShading());
+        return null;
     }
 
 

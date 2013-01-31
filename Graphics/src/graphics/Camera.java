@@ -44,11 +44,11 @@ public class Camera {
 	 */
 	public void setView(){
 		sight = sight.norm();		//to prevent rounding errors from rotating
-		l.setPosition(p.x, p.y, p.z);
 		Vector3 t = sight.add(p);
 		GLU.gluLookAt(p.x, p.y, p.z, 
 					  t.x, t.y, t.z, 
 					  0, 1, 0);
+                l.setPosition(p.x, p.y, p.z);
 	}
 	
 	public Light getLight(){

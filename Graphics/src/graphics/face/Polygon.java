@@ -120,7 +120,9 @@ public class Polygon {
 	private List copy(List l){
 		List c = new ArrayList(l.size());
 		for(Object o : l)
-			c.add(o);
+                {
+                    c.add(o);
+                }
 		return c;
 	}
 	
