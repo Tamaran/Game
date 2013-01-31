@@ -8,8 +8,11 @@ import graphics.face.Polygon;
 import graphics.face.TextureCoodinate;
 import graphics.face.Vertex;
 import graphics.materials.Material;
+import graphics.materials.MaterialAddress;
 import graphics.materials.MaterialLoader;
+import graphics.materials.MaterialNotFoundException;
 import graphics.shadingModes.Shading;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,6 +30,7 @@ public class MeshLoadHelper {
     private float left, right, top, bot, near, far;
     private Shading shading;
     private String file;
+    private String mtlFile;
     private List<Vertex> v = getList();
     private List<Polygon> f = getList();
     private List<TextureCoodinate> vt = getList();
@@ -52,25 +56,21 @@ public class MeshLoadHelper {
         far = Float.MIN_VALUE;
     }
 
-    public Mesh getMesh() {
-        try {
+    public Mesh getMesh() throws MeshParseException, FileNotFoundException{
             long t = System.currentTimeMillis();
-            selMat = Material.WHITE;
-            try (Scanner in = new Scanner(resLoader.getFile(file))) {
-                while (in.hasNextLine()) {
-                    readLine(in.nextLine());
-                }
+        selMat = Material.WHITE;
+        try (Scanner in = new Scanner(resLoader.getFile(file))) {
+            while (in.hasNextLine()) {
+                readLine(in.nextLine());
             }
-            Mesh m = new Mesh(toArray(f), new Vector3(right - left, top - bot, near - far));
-            centerVertices();
-            long normTime = System.currentTimeMillis();
-            calcNormals();
-            Logger.D("Calculating Normals for " + file + " finished after " + (System.currentTimeMillis() - normTime) + "ms");
-            Logger.D("Loading " + file + " finished after " + (System.currentTimeMillis() - t) + "ms");
-            return m;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
+        Mesh m = new Mesh(toArray(f), new Vector3(right - left, top - bot, near - far));
+        centerVertices();
+        long normTime = System.currentTimeMillis();
+        calcNormals();
+        Logger.D("Calculating Normals for " + file + " finished after " + (System.currentTimeMillis() - normTime) + "ms");
+        Logger.D("Loading " + file + " finished after " + (System.currentTimeMillis() - t) + "ms");
+        return m;
     }
 
     private void calcNormals() {
@@ -82,38 +82,45 @@ public class MeshLoadHelper {
         }
     }
 
-    private void readLine(String line) {
-        line = line.trim().toLowerCase();
-        if (line.isEmpty() || line.charAt(0) == '#') //is comment
+    private void readLine(String line) throws MeshParseException {
+        try
         {
-            return;
+            line = line.trim().toLowerCase();
+            if (line.isEmpty() || line.charAt(0) == '#') //is comment
+            {
+                return;
+            }
+            if (line.startsWith("f ")) {
+                readFace(line);
+            } else if (line.startsWith("v ")) {
+                readVertice(line);
+            } else if (line.startsWith("vt ")) {
+                readTextureCood(line);
+            } else if (line.startsWith("vn ")) {
+                ;//normals are ignored
+            } else if (line.startsWith("usemtl ")) {
+                readUseMTL(line);
+            } else if (line.startsWith("mtllib ")) {
+                readImport(line);
+            } else {
+                Logger.W("MeshLoader: line not parsed: " + line);
+            }            
         }
-        if (line.startsWith("f ")) {
-            readFace(line);
-        } else if (line.startsWith("v ")) {
-            readVertice(line);
-        } else if (line.startsWith("vt ")) {
-            readTextureCood(line);
-        } else if (line.startsWith("vn ")) {
-            ;//normals are ignored
-        } else if (line.startsWith("usemtl ")) {
-            readUseMTL(line);
-        } else if (line.startsWith("mtllib ")) {
-            readImport(line);
-        } else {
-            Logger.W("MeshLoader: line not parsed: " + line);
+        catch(Exception e)
+        {
+            throw new MeshParseException(e);
         }
-
     }
 
     private void readImport(String line) {
         String s = splitAtFirstSpace(line);
         s = toJavaPath(s);
-        matLoader.importLib(s);
+        mtlFile = s;
+        matLoader.importMtl(s);
     }
 
-    private void readUseMTL(String line) {
-        selMat = matLoader.getMaterial(splitAtFirstSpace(line));
+    private void readUseMTL(String line) throws MaterialNotFoundException {
+        selMat = matLoader.getMaterial(new MaterialAddress(mtlFile, splitAtFirstSpace(line)));
     }
 
     private void readVertice(String line) {

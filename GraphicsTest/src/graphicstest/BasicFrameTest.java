@@ -33,7 +33,7 @@ public class BasicFrameTest extends BasicFrame {
         cube.render();
         ship.render();
         earth.render();
-        sun.render();
+        //sun.render();
     }
 
     public void renderInterface() {
@@ -54,8 +54,8 @@ public class BasicFrameTest extends BasicFrame {
                 new Vector3(10, 0, 0));
         earth = new Model(meshLoader.getMesh("earth.obj"),
                 new Vector3(-5, 0, 0));
-        sun = new Model(meshLoader.getMesh("sun.obj"),
-                new Vector3(0, 10, 0));
+        //sun = new Model(meshLoader.getMesh("sun.obj"),
+        //        new Vector3(0, 10, 0));
         
         //bg = new Background(texLoader.getTexture("Star_Texture_Pack_by_Zephroth.jpg"), 1000);
         /*

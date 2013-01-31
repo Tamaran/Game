@@ -54,9 +54,13 @@ public class Material {
 		setMaterialParameter(GL_EMISSION, em);
 		setMaterialf(GL_SHININESS, Ns);		
 		if(map_Ka != null)
-			map_Ka.apply();
+                {
+                    map_Ka.apply();
+                }
 		if(map_Kd != null)
-			map_Kd.apply();
+                {
+                    map_Kd.apply();
+                }
 	}
 	
 	public void setAmbient(float r, float g, float b){

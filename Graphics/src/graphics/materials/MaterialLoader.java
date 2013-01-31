@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
+import util.LazyLoader;
 import util.ResourceLoader;
 
 /**
@@ -16,11 +17,14 @@ import util.ResourceLoader;
  * @author Tamaran
  *
  */
-public class MaterialLoader {
+public class MaterialLoader{
 
     private static final float SWOBJTOGL = 128f / 1000f;		//Factor for conversion of shininess from .obj format to opengl format 
-    private HashMap<File, Material> data = new HashMap();
+    
+    private HashMap<MaterialAddress, Material> data = new HashMap();
+    
     private Material m;
+    private String file;
     
     private ResourceLoader resLoader;
     private TextureLoader texLoader;
@@ -29,28 +33,11 @@ public class MaterialLoader {
         this.resLoader = resLoader;
         texLoader = new TextureLoader(resLoader);
     }
-
-    /**
-     * Returns the Material with the given name and null if it didnt got
-     * imported.
-     *
-     * @param name
-     * @return
-     */
-    public Material getMaterial(String name) {
-        return data.get(name);
-    }
-
-    /**
-     * Reads the Material data from a .mtl file
-     *
-     * @param s
-     * @throws FileNotFoundException
-     */
-    public void importLib(String f) {
+    
+    public void importMtl(String file) {
+        this.file = file;
         try {
-            m = null;
-            try (Scanner in = new Scanner(resLoader.getFile(f))) {
+            try (Scanner in = new Scanner(resLoader.getFile(file))) {
                 while (in.hasNextLine()) {
                     parseLine(in.nextLine().toLowerCase());
                 }
@@ -59,6 +46,17 @@ public class MaterialLoader {
             throw new RuntimeException(e);
         }
     }
+    
+    public Material getMaterial(MaterialAddress address) throws MaterialNotFoundException
+    {
+        Material r = data.get(address);
+        if(r == null)
+        {
+            throw new MaterialNotFoundException(address.toString());
+        }
+        return r;
+    }
+            
 
     private void parseLine(String line) {
         if (line.isEmpty()) {
@@ -143,7 +141,7 @@ public class MaterialLoader {
 
     private void newMtl(String line) {
         m = new Material();
-        this.data.put(new File(splitAtFirstSpace(line)), m);
+        this.data.put(new MaterialAddress(file, splitAtFirstSpace(line)), m);
     }
 
     private void parseAmbient(String line) {
@@ -161,4 +159,5 @@ public class MaterialLoader {
         }
         return s.substring(space + 1);
     }
+
 }

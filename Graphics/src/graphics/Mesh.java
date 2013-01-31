@@ -13,7 +13,7 @@ import mymath.Vector3;
  * @author Tamaran
  */
 public class Mesh {
-    
+
     private Polygon[] polygons;
     private Vector3 size;
 
@@ -29,17 +29,18 @@ public class Mesh {
     public Vector3 getSize() {
         return size;
     }
-    
-    public void render()
-    {
+
+    public void render() {
         Material m = null;
         for (Polygon a : polygons) {
-            if (m != a.getMaterial()) {
-                m = a.getMaterial();
-                m.apply();
-            }
+            /*
+             if (m != a.getMaterial()) {
+             m = a.getMaterial();
+             m.apply();
+             }
+             */
+            a.getMaterial().apply();
             a.render();
         }
     }
-    
 }
